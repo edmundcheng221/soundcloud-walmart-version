@@ -1,4 +1,4 @@
-// Store the 2 buttons in object
+// Store the 2 buttons, play and pause
 var buttons = {
     play: document.getElementById("btn-play"),
     pause: document.getElementById("btn-pause"),
@@ -7,7 +7,8 @@ var buttons = {
 // Create an instance of wave surfer with its configuration
 var Spectrum = WaveSurfer.create({
     container: '#audio-spectrum',
-    progressColor: "#03a9f4"
+    progressColor: "#30bdfc",
+    barHeight: 6
 });
 
 
@@ -31,12 +32,16 @@ buttons.pause.addEventListener("click", function(){
 // Add a listener to enable the play button once it's ready
 Spectrum.on('ready', function () {
     buttons.play.disabled = false;
-    let dict = {};
+    let dict = {}; // num_seconds: First letter
+    let name_dict = {}; // num_seconds: name
     fetch("http://127.0.0.1:5000/api")
         .then(response => response.json())
         .then(data =>{
             for (let element = 0; element < data.length; element++){
                 dict[parseInt(((data[element].time_stamp).split(":")[0]*60)) + parseInt(((data[element].time_stamp).split(":")[1]))] = data[element].name[0];
+            }
+            for (let element = 0; element < data.length; element++){
+                name_dict[parseInt(((data[element].time_stamp).split(":")[0]*60)) + parseInt(((data[element].time_stamp).split(":")[1]))] = data[element].name;
             }
             const ordered = Object.keys(dict).sort().reduce(
                 (obj, key) => { 
@@ -45,6 +50,7 @@ Spectrum.on('ready', function () {
                 }, 
                 {}
               );
+            // console.log(ordered);
             let percent = Spectrum.getDuration()/100;
             let num = (100/percent)/100;
             let wid = (Math.round(num * 100) / 100)-0.005
@@ -55,22 +61,24 @@ Spectrum.on('ready', function () {
                     let text_node = document.createElement('img');
                     text_node.src = "https://edmundcheng221.github.io/img/" + (ordered[i].toLowerCase()).toString() + ".png";
                     text_node.setAttribute("id","overlay")
-                    text_node.onmouseover = handleMouseHover;
-                    text_node.onmouseout = handleMouseOut;
+                    text_node.setAttribute("class", name_dict[i])
                     text_node.style.width = wid + "vw";
                     div_parent.appendChild(text_node);
+
                 }else{
                     let text_node = document.createElement('img');
                     text_node.src = "http://127.0.0.1:5000/static/assets/duck.png";
                     text_node.setAttribute("id","overlay")
-                    text_node.onmouseover = handleMouseHover;
-                    text_node.onmouseout = handleMouseOut;
+                    text_node.setAttribute("class", name_dict[i])
                     text_node.style.width = wid + "vw";
                     div_parent.appendChild(text_node);
+
                 }
 
             }
         })
+    handleMouseHover();
+    handleMouseOut()
 });
 
 // responsive mode (so when the user resizes the window)
@@ -83,7 +91,6 @@ window.addEventListener("resize", function(){
     Spectrum.drawBuffer();
     // Set original position
     Spectrum.seekTo(currentProgress);
-
     // Enable/Disable respectively buttons
     buttons.pause.disabled = true;
     buttons.play.disabled = false;
@@ -165,9 +172,43 @@ fetchCommentData();
 
 // when you hover over thumbnail image below the spectrum
 const handleMouseHover = () => {
-    console.log("yes");
+
+    fetch("http://127.0.0.1:5000/api")
+        .then(response => response.json())
+        .then(data => {
+            let nameAndMessage = {};
+            for (item in data) {
+                nameAndMessage[data[item].name] = data[item].message;
+            }
+            for (each in data){
+                // console.log(data[each]);
+                let el = document.querySelector("." + data[each].name.toString());
+                el.addEventListener("mouseover", function(){
+                    document.getElementById("author").style.display = "";
+                    document.getElementById("author-message").style.display = "";
+                    document.getElementById("author").innerHTML = el.className;
+                    document.getElementById("author-message").innerHTML = nameAndMessage[el.className];
+                });
+            }
+        })
 }
+
 // When the move is not hovering the thumbnail image below spectrum
 const handleMouseOut = () => {
-    console.log("no");
+    fetch("http://127.0.0.1:5000/api")
+        .then(response => response.json())
+        .then(data => {
+            let nameAndMessage = {};
+            for (item in data) {
+                nameAndMessage[data[item].name] = data[item].message;
+            }
+            for (each in data){
+                document.querySelector("." + data[each].name.toString()).addEventListener("mouseout", function(){
+                    document.getElementById("author").style.display = "none";
+                    document.getElementById("author-message").style.display = "none";
+                })
+            }
+        })
+
+    
 }

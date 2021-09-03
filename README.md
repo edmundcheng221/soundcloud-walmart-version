@@ -26,6 +26,10 @@ I chose MongoDB because I just need to be able to store information like name, c
 
 I also already have mongodb atlas account. I can use a shared cluster for free. No need to startup a database on localhost.
 
+## API Service
+
+Go to "http://127.0.0.1:5000/api" for json data containing all comments.
+
 ## Set up
 
 Clone repository
