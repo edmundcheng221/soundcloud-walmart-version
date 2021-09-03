@@ -1,0 +1,63 @@
+#logo-background {
+    background-color: #1b1b1b;
+    padding: 10px;
+}
+#word1 {
+    color: #fff;
+    font-weight: 800;
+    font-size: larger;
+    padding: 5px;
+}
+#word2 {
+    background-color: #ffa31a;
+    font-size: larger;
+    font-weight: 800;
+    padding: 5px;
+}
+#artist, #song-title {
+    margin-top: 10px;
+    padding: 8px;
+    background-color: #1b1b1b;
+    color: #fff;
+}
+#new-post {
+    display: none;
+}
+#moon {
+    width: 100px;
+    border: 1px solid #000;
+    border-radius: 45%;
+    margin-top: 20px;
+    margin-left: 25px;
+}
+#name_timestamp {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid gray;
+}
+#comment-data {
+    border-bottom: 1px solid gray;
+}
+.timer {
+    padding: 10px;
+}
+.song-info {
+    display: flex;
+    gap: 20px;
+}
+span {
+    border-radius: 5px;
+}
+table,td {
+    border: 1px solid #000;
+}
+.song-info, .timer {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.thumbnails {
+    display: inline-block;
+}
+#overlay {
+    height: 2vh;
+}

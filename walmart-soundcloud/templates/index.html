@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/index.css">
+    <title>Audio Player</title>
+</head>
+<body>
+    <script type="text/javascript" src="../static/js/index.js" defer></script>
+
+    <div id="logo-background">
+        <span id="word1">Audio</span>
+        <span id="word2">player</span>
+    </div>
+    <div>
+        <img src="../static/assets/ad_moon.png" alt="moon" id="moon">
+    </div>
+    <div class="song-info">
+        <span id="artist">
+            Artist: Kevin Manickam
+        </span>
+        <span id="song-title">
+            Title: Relaxation Sound
+        </span>
+    </div>
+    <!-- timer -->
+    <div class="timer">
+        00:00
+    </div>
+    <!-- spectrum -->
+    <div id="audio-spectrum"></div>
+    <!-- thumbnails below spectrum -->
+    <div class="thumbnails">
+
+    </div>
+    <!-- the description when hovering over thumbnails -->
+    </div id="overlay-description">
+        
+    <div>
+        <!-- Create action buttons -->
+    <input type="button" id="btn-play" value="Play" disabled="disabled"/>
+    <input type="button" id="btn-pause" value="Pause" disabled="disabled"/>
+
+    <script src="https://unpkg.com/wavesurfer.js@5.2.0/dist/wavesurfer.js"></script>
+    <br><br>
+    <button onclick="showForm()">New Post</button>
+    <button onclick="cancel()">Cancel post</button>
+    <br>
+    <form method="POST" id="new-post">
+        <label>Username</label><br>
+        <input name="commentor" placeholder="John Doe">
+        <br><br>
+        <label>Comment:</label><br>
+        <textarea name="comment" placeholder="Awesome!" onkeydown="begin()"></textarea>
+        <br><br>
+        <input name="timestamp" placeholder="00:00" id="timestamp">
+        <br><br>
+        <input type="submit">
+    </form>
+    <h3>Comment Section:</h3>
+
+    <div id="comment-data">
+
+    </div>
+</body>
+</html>
