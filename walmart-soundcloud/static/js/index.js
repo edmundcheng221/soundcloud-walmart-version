@@ -159,8 +159,6 @@ const fetchCommentData = () => {
                 textContent = data[i].name + " at " + data[i].time_stamp + " posted " + elapsed_time_content;
                 node.append(textContent);
                 parent.appendChild(node);
-                let breakElement = document.createElement('br');
-                parent.appendChild(breakElement);
                 let parentparent = document.querySelector("#comment-data");
                 parentparent.appendChild(parent)
                 let comment = data[i].message;
